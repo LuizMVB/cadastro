@@ -4,11 +4,9 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Table
-public class Mercado {
+public class Setor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -16,13 +14,12 @@ public class Mercado {
     private Long id;
 
     @Column
-    private Long cnpj;
-
-    @Column
     private String nome;
 
-    @OneToMany
-    @JoinColumn(name = "id_filial", referencedColumnName = "id")
-    private List<Filial> filialList;
+    @Column
+    private String descricao;
+
+    @Column
+    private Boolean isAtivo;
 
 }
