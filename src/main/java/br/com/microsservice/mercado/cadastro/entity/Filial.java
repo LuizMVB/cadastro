@@ -16,16 +16,21 @@ public class Filial {
     @Setter(value = AccessLevel.PRIVATE)
     private Long id;
 
+    @Column(length = 40)
+    private String nome;
+
     @Column
     @Enumerated(EnumType.STRING)
     private TipoEnum tipo;
 
-    @OneToMany
-    @JoinColumn(name = "id_setores", referencedColumnName = "id")
-    private List<Setor> setorList;
+    @ManyToOne
+    @JoinColumn(name = "idMercado")
+    private Mercado mercado;
 
-    @OneToMany
-    @JoinColumn(name = "id_produto", referencedColumnName = "id")
-    private List<Produto> produtoList;
+    @OneToMany(mappedBy = "ofertante")
+    private List<OfertaSetor> ofertaSetorList;
+
+    @OneToMany(mappedBy = "ofertante")
+    private List<OfertaProduto> ofertaProdutoList;
 
 }

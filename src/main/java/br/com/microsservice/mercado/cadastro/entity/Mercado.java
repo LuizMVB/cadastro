@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Table
 public class Mercado {
@@ -15,14 +13,13 @@ public class Mercado {
     @Setter(value = AccessLevel.PRIVATE)
     private Long id;
 
-    @Column
-    private Long cnpj;
+    @Column(length = 14)
+    private String cnpj;
 
-    @Column
+    @Column(length = 40)
     private String nome;
 
-    @OneToMany
-    @JoinColumn(name = "id_filial", referencedColumnName = "id")
-    private List<Filial> filialList;
+    @Embedded
+    private DataEmbeddable data;
 
 }

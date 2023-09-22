@@ -1,0 +1,8 @@
+CREATE TABLE Mercado (
+    id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    cnpj VARCHAR(14) NOT NULL,
+    nome VARCHAR(40) NOT NULL,
+    dataInclusao DATETIME NOT NULL
+    dataAtualizacao DATETIME DEFAULT NULL,
+    PRIMARY KEY (id)
+);
