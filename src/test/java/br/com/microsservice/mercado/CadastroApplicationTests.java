@@ -1,4 +1,4 @@
-package br.com.microsservice.mercado.cadastro;
+package br.com.microsservice.mercado;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

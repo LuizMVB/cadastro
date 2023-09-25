@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql:8.0.32
+    container_name: mercado-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mercado-db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: mercado-db
+      MYSQL_ROOT_PASSWORD: ifljava
+    networks:
+      - gestao-mercados-microsservices-bridge
+
+  mercado-ms:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: luizmiguelvb/mercado-ms
+    container_name: mercado-ms
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    environment:
+      - ADDITIONAL_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005 -Xmx1G -Xms128m -XX:MaxMetaspaceSize=128m
+      - PROFILE=dev
+    networks:
+      - gestao-mercados-microsservices-bridge
+    depends_on:
+      - mysql
+
+networks:
+  gestao-mercados-microsservices-bridge:
+    driver: bridge
+volumes:
+  mercado-db:

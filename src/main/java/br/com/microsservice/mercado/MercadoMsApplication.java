@@ -1,13 +1,13 @@
-package br.com.microsservice.mercado.cadastro;
+package br.com.microsservice.mercado;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CadastroApplication {
+public class MercadoMsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CadastroApplication.class, args);
+		SpringApplication.run(MercadoMsApplication.class, args);
 	}
 
 }

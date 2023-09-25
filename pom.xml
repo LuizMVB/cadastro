@@ -12,10 +12,11 @@
 	<artifactId>mercado-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cadastro</name>
-	<description>Serviço de cadastro de mercados</description>
+	<description>Serviço de cadastro de mercados e filiais</description>
 	<properties>
 		<java.version>17</java.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
+		<modelmapper.version>3.1.1</modelmapper.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -65,6 +66,12 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -73,6 +80,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<excludeDevtools>false</excludeDevtools>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

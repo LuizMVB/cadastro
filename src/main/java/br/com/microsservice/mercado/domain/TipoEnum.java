@@ -1,4 +1,4 @@
-package br.com.microsservice.mercado.cadastro.domain;
+package br.com.microsservice.mercado.domain;
 
 public enum TipoEnum {
     MERCEARIA,
