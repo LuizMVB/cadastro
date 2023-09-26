@@ -44,7 +44,7 @@ public class CadastroFilialService {
     public FilialDTO detalhar(Long id) {
         Filial filial = filialRepository
                 .findById(id)
-                .orElseThrow(EntityExistsException::new);
+                .orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(filial, FilialDTO.class);
     }
 

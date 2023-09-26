@@ -35,16 +35,16 @@ public class MercadoController {
 
     @PutMapping(value = "/mercado/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable @NotNull Long id,
-                          @RequestBody @Valid MercadoDTO mercadoDTO) {
-        cadastroMercadoService.atualizar(id, mercadoDTO);
+    public void substituir(@PathVariable @NotNull Long id,
+                           @RequestBody @Valid MercadoDTO mercadoDTO) {
+        cadastroMercadoService.substituir(id, mercadoDTO);
     }
 
     @PatchMapping(value = "/mercado/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void modificar(@PathVariable @NotNull Long id,
-                          @RequestBody MercadoDTO filialDTO) {
-        cadastroMercadoService.modificar(id, filialDTO);
+                          @RequestBody MercadoDTO mercadoDTO) {
+        cadastroMercadoService.modificar(id, mercadoDTO);
     }
 
 }

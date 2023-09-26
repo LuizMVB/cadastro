@@ -36,11 +36,11 @@ public class CadastroMercadoService {
     public MercadoDTO detalhar(Long id) {
         Mercado mercado = mercadoRepository
                 .findById(id)
-                .orElseThrow(EntityExistsException::new);
+                .orElseThrow(EntityNotFoundException::new);
         return modelMapper.map(mercado, MercadoDTO.class);
     }
 
-    public void atualizar(Long id, MercadoDTO mercadoDTO) {
+    public void substituir(Long id, MercadoDTO mercadoDTO) {
         mercadoDTO.setId(id);
         Mercado mercado = modelMapper.map(mercadoDTO, Mercado.class);
         mercadoRepository.save(mercado);

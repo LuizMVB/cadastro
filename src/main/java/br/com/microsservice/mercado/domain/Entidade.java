@@ -3,7 +3,7 @@ package br.com.microsservice.mercado.domain;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-public class Entidade<T> {
+public abstract class Entidade<T> {
 
     public void mergeNonNullProperties(T toBe) {
         Arrays.stream(toBe.getClass().getDeclaredFields()).forEach(toBeField -> {
