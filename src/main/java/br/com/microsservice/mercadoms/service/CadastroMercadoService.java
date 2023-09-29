@@ -1,10 +1,10 @@
-package br.com.microsservice.mercado.service;
+package br.com.microsservice.mercadoms.service;
 
-import br.com.microsservice.mercado.controller.dto.MercadoDTO;
-import br.com.microsservice.mercado.domain.entity.Mercado;
-import br.com.microsservice.mercado.repository.MercadoRepository;
-import jakarta.persistence.EntityExistsException;
+import br.com.microsservice.mercadoms.dto.MercadoDTO;
+import br.com.microsservice.mercadoms.domain.entity.Mercado;
+import br.com.microsservice.mercadoms.repository.MercadoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +21,7 @@ public class CadastroMercadoService {
     @Autowired
     private MercadoRepository mercadoRepository;
 
+    @Transactional
     public MercadoDTO criar(MercadoDTO mercadoDTO) {
         Mercado mercado = modelMapper.map(mercadoDTO, Mercado.class);
         mercado = mercadoRepository.save(mercado);
@@ -40,12 +41,14 @@ public class CadastroMercadoService {
         return modelMapper.map(mercado, MercadoDTO.class);
     }
 
+    @Transactional
     public void substituir(Long id, MercadoDTO mercadoDTO) {
         mercadoDTO.setId(id);
         Mercado mercado = modelMapper.map(mercadoDTO, Mercado.class);
         mercadoRepository.save(mercado);
     }
 
+    @Transactional
     public void modificar(Long id, MercadoDTO mercadoDTO) {
         Mercado mercado = mercadoRepository
                 .findById(id)

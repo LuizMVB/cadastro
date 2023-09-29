@@ -1,7 +1,7 @@
-package br.com.microsservice.mercado.domain.entity;
+package br.com.microsservice.mercadoms.domain.entity;
 
-import br.com.microsservice.mercado.domain.Entidade;
-import br.com.microsservice.mercado.domain.TipoEnum;
+import br.com.microsservice.mercadoms.domain.Entidade;
+import br.com.microsservice.mercadoms.domain.TipoFilialEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,10 +21,13 @@ public class Filial extends Entidade<Filial> {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private TipoEnum tipo;
+    private TipoFilialEnum tipo;
 
     @Column(nullable = false)
     private Boolean isAtivo = true;
+
+    @Embedded
+    private Endereco endereco;
 
     @Embedded
     private DataEmbeddable data = new DataEmbeddable();

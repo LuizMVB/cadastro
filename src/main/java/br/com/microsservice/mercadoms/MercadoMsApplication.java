@@ -1,4 +1,4 @@
-package br.com.microsservice.mercado;
+package br.com.microsservice.mercadoms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,12 +1,12 @@
-package br.com.microsservice.mercado.service;
+package br.com.microsservice.mercadoms.service;
 
-import br.com.microsservice.mercado.controller.dto.FilialDTO;
-import br.com.microsservice.mercado.domain.entity.Filial;
-import br.com.microsservice.mercado.domain.entity.Mercado;
-import br.com.microsservice.mercado.repository.FilialRepository;
-import br.com.microsservice.mercado.repository.MercadoRepository;
-import jakarta.persistence.EntityExistsException;
+import br.com.microsservice.mercadoms.dto.FilialDTO;
+import br.com.microsservice.mercadoms.domain.entity.Filial;
+import br.com.microsservice.mercadoms.domain.entity.Mercado;
+import br.com.microsservice.mercadoms.repository.FilialRepository;
+import br.com.microsservice.mercadoms.repository.MercadoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +25,7 @@ public class CadastroFilialService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Transactional
     public FilialDTO criar(Long idMercado, FilialDTO filialDTO) {
         Mercado mercado = mercadoRepository
                 .findById(idMercado)
@@ -48,12 +49,14 @@ public class CadastroFilialService {
         return modelMapper.map(filial, FilialDTO.class);
     }
 
+    @Transactional
     public void substituir(Long id, FilialDTO filialDTO) {
         filialDTO.setId(id);
         Filial filial = modelMapper.map(filialDTO, Filial.class);
         filialRepository.save(filial);
     }
 
+    @Transactional
     public void modificar(Long id, FilialDTO filialDTO) {
         Filial filial = filialRepository
                 .findById(id)

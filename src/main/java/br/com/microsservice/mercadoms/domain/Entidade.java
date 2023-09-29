@@ -1,4 +1,4 @@
-package br.com.microsservice.mercado.domain;
+package br.com.microsservice.mercadoms.domain;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

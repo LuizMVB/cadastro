@@ -1,6 +1,6 @@
-package br.com.microsservice.mercado.domain.entity;
+package br.com.microsservice.mercadoms.domain.entity;
 
-import br.com.microsservice.mercado.domain.Entidade;
+import br.com.microsservice.mercadoms.domain.Entidade;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +36,7 @@ public class Mercado extends Entidade<Mercado> {
 
     @PrePersist
     @PreUpdate
-    public void onPrePersist() {
+    public void onPrePersistOrPreUpdate() {
         if(isAtivo) {
             return;
         }

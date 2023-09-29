@@ -1,7 +1,7 @@
-package br.com.microsservice.mercado.controller;
+package br.com.microsservice.mercadoms.controller;
 
-import br.com.microsservice.mercado.controller.dto.FilialDTO;
-import br.com.microsservice.mercado.service.CadastroFilialService;
+import br.com.microsservice.mercadoms.dto.FilialDTO;
+import br.com.microsservice.mercadoms.service.CadastroFilialService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

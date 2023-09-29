@@ -34,6 +34,8 @@ services:
 
 networks:
   gestao-mercados-microsservices-bridge:
+    name: "gestao-mercados-microsservices-bridge"
     driver: bridge
+    external: true
 volumes:
   mercado-db:

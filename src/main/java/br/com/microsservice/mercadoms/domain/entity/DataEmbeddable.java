@@ -1,4 +1,4 @@
-package br.com.microsservice.mercado.domain.entity;
+package br.com.microsservice.mercadoms.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

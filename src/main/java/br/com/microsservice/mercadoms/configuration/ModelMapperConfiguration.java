@@ -1,4 +1,4 @@
-package br.com.microsservice.mercado.configuration;
+package br.com.microsservice.mercadoms.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
