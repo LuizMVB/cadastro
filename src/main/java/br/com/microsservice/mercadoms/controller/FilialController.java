@@ -18,18 +18,17 @@ public class FilialController {
     @Autowired
     private CadastroFilialService cadastroFilialService;
 
-    @PostMapping(value = "/mercado/{idMercado}/filial")
+    @PostMapping(value = "/mercado/{id}/filial")
     @ResponseStatus(HttpStatus.CREATED)
-    public FilialDTO criar(@PathVariable @NotNull Long idMercado,
-                      @RequestBody @Valid FilialDTO filialDTO,
-                      UriComponentsBuilder uriBuilder) {
-        return cadastroFilialService.criar(idMercado, filialDTO);
+    public FilialDTO criar(@PathVariable @NotNull Long id,
+                      @RequestBody @Valid FilialDTO filialDTO) {
+        return cadastroFilialService.criar(id, filialDTO);
     }
 
-    @GetMapping(value = "/mercado/{idMercado}/filial")
-    public Page<FilialDTO> listar(@PathVariable @NotNull Long idMercado,
+    @GetMapping(value = "/mercado/{id}/filial")
+    public Page<FilialDTO> listar(@PathVariable @NotNull Long id,
                                   @PageableDefault(size = 5) Pageable paginacao) {
-        return cadastroFilialService.listar(idMercado, paginacao);
+        return cadastroFilialService.listar(id, paginacao);
     }
 
     @GetMapping(value = "/mercado/filial/{id}")

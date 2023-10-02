@@ -1,19 +1,19 @@
 package br.com.microsservice.mercadoms.domain.entity;
 
 import br.com.microsservice.mercadoms.domain.Entidade;
+import br.com.microsservice.mercadoms.domain.event.AtualizacaoFilialListPorIdMercadoEIsAtivoEvent;
+import br.com.microsservice.mercadoms.domain.event.ValidacaoMercadoIsAtivoPorIdEIsAtivoEvent;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.util.CollectionUtils;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table
 @Data
-public class Mercado extends Entidade<Mercado> {
+public class Mercado extends AbstractAggregateRoot<Mercado> implements Entidade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,36 +34,47 @@ public class Mercado extends Entidade<Mercado> {
     @OneToMany(mappedBy = "mercado", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Filial> filialList;
 
-    @PrePersist
-    @PreUpdate
-    public void onPrePersistOrPreUpdate() {
-        if(isAtivo) {
-            return;
-        }
-
-        if(CollectionUtils.isEmpty(filialList)) {
-            return;
-        }
-
-        filialList.forEach(Filial::desativar);
-    }
-
-    public void setFilialList(List<Filial> filialList) {
+    public void setFilialList(@NotNull List<Filial> filialList) {
         this.filialList = filialList;
-
-        if(CollectionUtils.isEmpty(filialList)) {
-            return;
-        }
-
-        filialList.forEach(filial -> filial.setMercado(this));
+        this.filialList.forEach(filial -> filial.setMercado(this));
     }
 
-    public void addFilial(Filial filial) {
-        if(CollectionUtils.isEmpty(filialList)) {
-            filialList = new ArrayList<>();
-        }
+    public void addFilial(@NotNull Filial filial) {
         filial.setMercado(this);
         filialList.add(filial);
     }
 
+    public void atualizarFilialList() {
+        if(id == null) {
+            throw new IllegalStateException("O id do mercado está nulo: para realizar a " +
+                    "atualização do campo filialList o id não pode ser nulo");
+        }
+
+        if(isAtivo == null) {
+            throw new IllegalStateException("O campo isAtivo do mercado está nulo: para realizar " +
+                    "a validação do mercado, o campo isAtivo não pode estar nulo");
+        }
+
+        registerEvent(new AtualizacaoFilialListPorIdMercadoEIsAtivoEvent(this));
+    }
+
+    public List<Filial> getFiliaisAtivas() {
+        return filialList.stream()
+                .filter(Filial::getIsAtivo)
+                .toList();
+    }
+
+    public void validarSePodePersistirAtualizacao() {
+        if(id == null) {
+            throw new IllegalStateException("O id do mercado está nulo: para realizar " +
+                    "a validação do mercado, o id não pode estar nulo");
+        }
+
+        if(isAtivo == null) {
+            throw new IllegalStateException("O campo isAtivo do mercado está nulo: para realizar " +
+                    "a validação do mercado, o campo isAtivo não pode estar nulo");
+        }
+
+        registerEvent(new ValidacaoMercadoIsAtivoPorIdEIsAtivoEvent(id, isAtivo));
+    }
 }

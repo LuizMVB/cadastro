@@ -26,8 +26,4 @@ public class MercadoDTO {
 
     private Boolean isAtivo = true;
 
-    @Valid
-    @NotNull
-    private List<FilialDTO> filialList;
-
 }
