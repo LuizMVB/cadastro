@@ -3,6 +3,7 @@ package br.com.microsservice.mercadoms.domain.entity;
 import br.com.microsservice.mercadoms.domain.Entidade;
 import br.com.microsservice.mercadoms.domain.TipoFilialEnum;
 import br.com.microsservice.mercadoms.domain.event.DesativacaoMercadoFilialEvent;
+import br.com.microsservice.mercadoms.domain.event.OnChangeIsAtivoFilialEvent;
 import br.com.microsservice.mercadoms.domain.event.ValidacaoMercadoIsAtivoPorIdFilialEvent;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -39,24 +40,13 @@ public class Filial extends AbstractAggregateRoot<Filial> implements Entidade {
     @JoinColumn(name = "id_mercado", updatable = false)
     private Mercado mercado;
 
-    public void validarSePodePersistirAtualizacao() {
-        if(id == null) {
-            throw new IllegalStateException("O id da filial está nulo: para realizar " +
-                    "a atualização do mercado, o id da filial não pode estar nulo");
-        }
+    @Transient
+    private Boolean lastIsAtivo;
 
-        registerEvent(new ValidacaoMercadoIsAtivoPorIdFilialEvent(id));
-    }
-
-    public void atualizarMercado() {
-        if(isAtivo) return;
-
-        if(id == null) {
-            throw new IllegalStateException("O id da filial está nulo: para realizar " +
-                    "a atualização do mercado, o id da filial não pode estar nulo");
-        }
-
-        registerEvent(new DesativacaoMercadoFilialEvent(id));
+    public void setIsAtivo(Boolean ativo) {
+        lastIsAtivo = isAtivo;
+        isAtivo = ativo;
+        registerEvent(new OnChangeIsAtivoFilialEvent(id, isAtivo, lastIsAtivo));
     }
 
     public void desativar() {

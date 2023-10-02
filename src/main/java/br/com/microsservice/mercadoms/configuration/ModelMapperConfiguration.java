@@ -9,7 +9,10 @@ public class ModelMapperConfiguration {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration()
+                .setPropertyCondition(ctx -> ctx.getSource() != null);
+        return modelMapper;
     }
 
 }

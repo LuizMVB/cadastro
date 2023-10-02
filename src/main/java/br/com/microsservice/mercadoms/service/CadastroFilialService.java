@@ -53,8 +53,6 @@ public class CadastroFilialService {
     public void substituir(Long id, FilialDTO filialDTO) {
         filialDTO.setId(id);
         Filial filial = modelMapper.map(filialDTO, Filial.class);
-        filial.atualizarMercado();
-        filial.validarSePodePersistirAtualizacao();
         filialRepository.save(filial);
     }
 
@@ -64,9 +62,7 @@ public class CadastroFilialService {
                 .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         Filial filialToBe = modelMapper.map(filialDTO, Filial.class);
-        filial.modificar(filialToBe);
-        filial.atualizarMercado();
-        filial.validarSePodePersistirAtualizacao();
+        modelMapper.map(filialToBe, filial);
         filialRepository.save(filial);
     }
 
