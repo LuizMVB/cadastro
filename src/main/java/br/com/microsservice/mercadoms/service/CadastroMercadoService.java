@@ -45,8 +45,6 @@ public class CadastroMercadoService {
     public void substituir(Long id, MercadoDTO mercadoDTO) {
         mercadoDTO.setId(id);
         Mercado mercado = modelMapper.map(mercadoDTO, Mercado.class);
-        mercado.atualizarFilialList();
-        mercado.validarSePodePersistirAtualizacao();
         mercadoRepository.save(mercado);
     }
 
@@ -56,8 +54,7 @@ public class CadastroMercadoService {
                 .findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         Mercado mercadoToBe = modelMapper.map(mercadoDTO, Mercado.class);
-        mercado.modificar(mercadoToBe);
-        mercado.atualizarFilialList();
+        modelMapper.map(mercadoToBe, mercado);
         mercadoRepository.save(mercado);
     }
 }

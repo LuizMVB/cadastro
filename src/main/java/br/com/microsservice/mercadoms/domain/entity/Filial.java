@@ -1,10 +1,8 @@
 package br.com.microsservice.mercadoms.domain.entity;
 
-import br.com.microsservice.mercadoms.domain.Entidade;
 import br.com.microsservice.mercadoms.domain.TipoFilialEnum;
-import br.com.microsservice.mercadoms.domain.event.DesativacaoMercadoFilialEvent;
 import br.com.microsservice.mercadoms.domain.event.OnChangeIsAtivoFilialEvent;
-import br.com.microsservice.mercadoms.domain.event.ValidacaoMercadoIsAtivoPorIdFilialEvent;
+import br.com.microsservice.mercadoms.domain.event.VerificacaoMercadoIsAtivoFilialEvent;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +12,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 @Entity
 @Table
 @Data
-public class Filial extends AbstractAggregateRoot<Filial> implements Entidade {
+public class Filial extends AbstractAggregateRoot<Filial> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +40,10 @@ public class Filial extends AbstractAggregateRoot<Filial> implements Entidade {
 
     @Transient
     private Boolean lastIsAtivo;
+
+    public Filial() {
+        registerEvent(new VerificacaoMercadoIsAtivoFilialEvent(id));
+    }
 
     public void setIsAtivo(Boolean ativo) {
         lastIsAtivo = isAtivo;

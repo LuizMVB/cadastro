@@ -1,19 +1,19 @@
 package br.com.microsservice.mercadoms.domain.entity;
 
-import br.com.microsservice.mercadoms.domain.Entidade;
-import br.com.microsservice.mercadoms.domain.event.AtualizacaoFilialListPorIdMercadoEIsAtivoEvent;
-import br.com.microsservice.mercadoms.domain.event.ValidacaoMercadoIsAtivoPorIdEIsAtivoEvent;
+import br.com.microsservice.mercadoms.domain.event.OnChangeIsAtivoMercadoEvent;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.util.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table
 @Data
-public class Mercado extends AbstractAggregateRoot<Mercado> implements Entidade {
+public class Mercado extends AbstractAggregateRoot<Mercado> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,6 +34,15 @@ public class Mercado extends AbstractAggregateRoot<Mercado> implements Entidade 
     @OneToMany(mappedBy = "mercado", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Filial> filialList;
 
+    @Transient
+    private Boolean lastIsAtivo;
+
+    public void setIsAtivo(Boolean ativo) {
+        lastIsAtivo = isAtivo;
+        isAtivo = ativo;
+        registerEvent(new OnChangeIsAtivoMercadoEvent(id, isAtivo, lastIsAtivo));
+    }
+
     public void setFilialList(@NotNull List<Filial> filialList) {
         this.filialList = filialList;
         this.filialList.forEach(filial -> filial.setMercado(this));
@@ -44,37 +53,10 @@ public class Mercado extends AbstractAggregateRoot<Mercado> implements Entidade 
         filialList.add(filial);
     }
 
-    public void atualizarFilialList() {
-        if(id == null) {
-            throw new IllegalStateException("O id do mercado está nulo: para realizar a " +
-                    "atualização do campo filialList o id não pode ser nulo");
-        }
-
-        if(isAtivo == null) {
-            throw new IllegalStateException("O campo isAtivo do mercado está nulo: para realizar " +
-                    "a validação do mercado, o campo isAtivo não pode estar nulo");
-        }
-
-        registerEvent(new AtualizacaoFilialListPorIdMercadoEIsAtivoEvent(this));
-    }
-
     public List<Filial> getFiliaisAtivas() {
         return filialList.stream()
                 .filter(Filial::getIsAtivo)
                 .toList();
     }
 
-    public void validarSePodePersistirAtualizacao() {
-        if(id == null) {
-            throw new IllegalStateException("O id do mercado está nulo: para realizar " +
-                    "a validação do mercado, o id não pode estar nulo");
-        }
-
-        if(isAtivo == null) {
-            throw new IllegalStateException("O campo isAtivo do mercado está nulo: para realizar " +
-                    "a validação do mercado, o campo isAtivo não pode estar nulo");
-        }
-
-        registerEvent(new ValidacaoMercadoIsAtivoPorIdEIsAtivoEvent(id, isAtivo));
-    }
 }

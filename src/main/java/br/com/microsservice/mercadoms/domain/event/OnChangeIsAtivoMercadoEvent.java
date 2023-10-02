@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class ValidacaoMercadoIsAtivoPorIdFilialEvent {
-
-    private final Long idFilial;
-
+public class OnChangeIsAtivoMercadoEvent {
+    private final Long id;
+    private final Boolean isAtivo;
+    private final Boolean lastIsAtivo;
 }
